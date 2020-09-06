@@ -20,7 +20,7 @@ class SearchController extends Controller
 
         if (empty($searchText)) {
             return $this->render(
-                "@ezdesign/search/custom_search.html.twig",
+                "@ezdesign/search/article_search.html.twig",
                 [
                     'search_text' => '',
                     'pager' => null,
@@ -47,7 +47,7 @@ class SearchController extends Controller
         $pager->setCurrentPage($currentPage > 0 ? $currentPage : 1);
 
         return $this->render(
-            "@ezdesign/search/custom_search.html.twig",
+            "@ezdesign/search/article_search.html.twig",
             [
                 'search_text' => $searchText,
                 'pager' => $pager,
