@@ -13,40 +13,6 @@ services:
         class: AppBundle\Controller\SearchController
         parent: netgen.ezplatform_site.controller.base
 
-#    app.index.block_content_field:
-#        class: AppBundle\Query\Index\AppBlockContentFieldMapper
-#        tags:
-#            - { name: ezpublish.search.solr.field_mapper.block }
-#
-#    app.index.block_translation_content_field:
-#        class: AppBundle\Query\Index\AppBlockContentTranslationFieldMapper
-#        tags:
-#            - { name: ezpublish.search.solr.field_mapper.block_translation }
-#
-#    app.index.content_field:
-#        class: AppBundle\Query\Index\AppContentFieldMapper
-#        tags:
-#            - { name: ezpublish.search.solr.field_mapper.content }
-#
-    app.index.content_translation_field:
-        class: AppBundle\Query\Index\AppContentTranslationFieldMapper
-        tags:
-            - { name: ezpublish.search.solr.field_mapper.content_translation }
-
-#    app.index.location_field:
-#        class: AppBundle\Query\Index\AppLocationFieldMapper
-#        tags:
-#            - { name: ezpublish.search.solr.field_mapper.location }
-
-    app.query_type.custom_search:
-        class: AppBundle\QueryType\CustomSearchQueryType
-        public: false
-        arguments:
-            - "@netgen.ezplatform_site.site"
-            - "@ezpublish.config.resolver"
-        tags:
-            - { name: ezpublish.query_type }
-
     app.index.article.content_field:
         class: AppBundle\Query\Index\ArticleChildrenMapper
         arguments:

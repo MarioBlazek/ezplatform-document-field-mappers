@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Query\Index;
 
 use eZ\Publish\SPI\Persistence\Content as SPIContent;
@@ -17,6 +19,9 @@ use DOMNode;
 
 class ArticleChildrenMapper extends ContentFieldMapper
 {
+    private const NG_ARTICLE_CONTENT_TYPE_ID = 44;
+    private const IMAGE_CONTENT_TYPE = 'image';
+
     /**
      * @var \eZ\Publish\SPI\Persistence\Content\Type\Handler
      */
@@ -45,8 +50,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
 
     public function accept(SPIContent $content)
     {
-//        return $content->versionInfo->contentInfo->contentTypeId == 44;
-        return $content->versionInfo->contentInfo->id == 366;
+        return $content->versionInfo->contentInfo->contentTypeId == self::NG_ARTICLE_CONTENT_TYPE_ID;
     }
 
     public function mapFields(SPIContent $content)
@@ -67,7 +71,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
             $content = $this->contentHandler->load($location->contentId);
             $contentType = $this->contentTypeHandler->load($content->versionInfo->contentInfo->contentTypeId);
 
-            if ($contentType->identifier !== 'image') {
+            if ($contentType->identifier !== self::IMAGE_CONTENT_TYPE) {
                 continue;
             }
 
@@ -102,7 +106,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
             "Could not extract field '{$identifier}'"
         );
     }
-    private function getFieldDefinitionId(ContentType $contentType, $identifier)
+    private function getFieldDefinitionId(ContentType $contentType, $identifier): int
     {
         foreach ($contentType->fieldDefinitions as $fieldDefinition) {
             if ($fieldDefinition->identifier === $identifier) {
@@ -114,7 +118,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
         );
     }
 
-    private function process(ContentField $field)
+    private function process(ContentField $field): string
     {
         $document = new DOMDocument();
         $document->loadXML($field->value->data);
@@ -122,7 +126,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
         return $this->extractText($document->documentElement);
     }
 
-    private function extractText(DOMNode $node)
+    private function extractText(DOMNode $node): string
     {
         $text = '';
 

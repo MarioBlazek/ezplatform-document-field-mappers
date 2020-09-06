@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace AppBundle\Controller;
 
@@ -13,8 +14,7 @@ class SearchController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $configResolver = $this->getConfigResolver();
-        $queryType = $this->getQueryTypeRegistry()->getQueryType('App:CustomSearch');
+        $queryType = $this->getQueryTypeRegistry()->getQueryType('NetgenSite:Search');
 
         $searchText = trim($request->query->get('searchText', ''));
 
@@ -28,15 +28,20 @@ class SearchController extends Controller
             );
         }
 
+        $query = $queryType->getQuery([
+            'search_text' => $searchText,
+            'content_types' => 'ng_article',
+        ]);
+
         $pager = new Pagerfanta(
             new FindAdapter(
-                $queryType->getQuery(['search_text' => $searchText]),
+                $query,
                 $this->getSite()->getFindService()
             )
         );
 
         $pager->setNormalizeOutOfRangePages(true);
-        $pager->setMaxPerPage((int) $configResolver->getParameter('search.default_limit', 'ngsite'));
+        $pager->setMaxPerPage((int) 12);
 
         $currentPage = $request->query->getInt('page', 1);
         $pager->setCurrentPage($currentPage > 0 ? $currentPage : 1);
