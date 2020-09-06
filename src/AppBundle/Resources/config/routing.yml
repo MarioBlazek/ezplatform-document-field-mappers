@@ -1,0 +1,5 @@
+app.route.custom.search:
+    path: /custom/content/search
+    defaults:
+        _controller: "app.controller.search"
+    methods: [GET]
