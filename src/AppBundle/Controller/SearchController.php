@@ -30,7 +30,7 @@ class SearchController extends Controller
 
         $query = $queryType->getQuery([
             'search_text' => $searchText,
-            'content_types' => 'ng_article',
+            'content_types' => ['ng_article'],
         ]);
 
         $pager = new Pagerfanta(
