@@ -79,7 +79,7 @@ class ArticleChildrenMapper extends ContentFieldMapper
             $caption = $this->extractField($content, $contentType, 'caption');
 
             $fields[] = new Search\Field(
-            'meta_content__text',
+                'meta_content__text',
                 $name->value->data,
                 new Search\FieldType\TextField()
             );
@@ -140,5 +140,4 @@ class ArticleChildrenMapper extends ContentFieldMapper
 
         return trim($text);
     }
-
 }
